@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.dev.js --open",
+    "prebuild": "jest",
     "build": "webpack --config webpack.config.production.js",
+    "prepublish": "npm run build",
+    "publish": "node tools/spsave",
     "test": "jest --watch",
     "test:coverage": "jest --coverage --colors",
     "lint": "eslint --cache --format codeframe --ext js,jsx src"
@@ -49,6 +52,7 @@
     "eslint-plugin-react": "^7.14.3",
     "file-loader": "^4.2.0",
     "html-loader": "^0.5.5",
+    "html-replace-webpack-plugin": "^2.5.5",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^3.0.5",
     "jest": "^24.9.0",
@@ -60,6 +64,7 @@
     "postcss-safe-parser": "^4.0.1",
     "prettier": "^1.18.2",
     "sass-loader": "^8.0.0",
+    "spsave": "^3.1.5",
     "style-loader": "^1.0.0",
     "terser-webpack-plugin": "^1.4.1",
     "webpack": "^4.39.3",

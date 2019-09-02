@@ -6,14 +6,16 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const postcssSafeParser = require('postcss-safe-parser');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const merge = require('webpack-merge');
+const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 const base = require('./webpack.config.base');
+const { spSubUrl, spDir } = require('./config');
 
 module.exports = merge(base, {
   mode: 'production',
   devtool: 'source-map',
   output: {
-    filename: 'static/js/main.[hash:8].js',
-    chunkFilename: 'static/js/[name].chunk.[hash:8].js',
+    filename: `static/js/main.js`,
+    chunkFilename: 'static/js/[name].chunk.js',
     path: path.resolve(__dirname, 'build'),
   },
   module: {
@@ -79,7 +81,6 @@ module.exports = merge(base, {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html'),
-      favicon: path.resolve(__dirname, 'public', 'favicon.ico'),
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -92,9 +93,24 @@ module.exports = merge(base, {
         minifyCSS: true,
         minifyURLs: true,
       },
+      inject: false,
     }),
+    new HtmlReplaceWebpackPlugin([
+      {
+        pattern: /(<!--\s*|@@)(css|js|img):([\w-/]+)(\s*-->)?/g,
+        replacement: (match, $1, type) => {
+          console.log(type);
+          if (type === 'js') {
+            return `<script type="text/javascript" src="${spSubUrl}${spDir}/static/js/main.js"></script>`;
+          }
+          if (type === 'css') {
+            return `<link rel="stylesheet" type="text/css" href="${spSubUrl}${spDir}/static/css/main.css"/>`;
+          }
+        },
+      },
+    ]),
     new MiniCssExtractPlugin({
-      filename: 'static/css/[name].[hash:8].css',
+      filename: 'static/css/[name].css',
     }),
     new OptimizeCSSAssetsPlugin({
       cssProcessorOptions: {

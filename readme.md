@@ -1,12 +1,10 @@
-# minimal react
+# minimal react sharepoint
 
-A minimal React starter kit.
+A minimal React starter kit to publish sharepoint apps.
 
 <p align="center">
-    <img src="icon.png" alt="icon" width="25%" height="25%">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Microsoft_Office_SharePoint_%282018%E2%80%93present%29.svg" alt="icon" width="25%" height="25%">
 </p>
-
-Icon from [favicon.io](https://favicon.io/favicon-generator/).
 
 ---
 
@@ -23,9 +21,23 @@ Start using React without `create-react-app` and configure webpack, without ejec
 * 🐶 Commit Hooks
 * ✅ Jest/Enzyme Testing
 * ⚡️ Production code optimization
+* 🔵 Publish to SharePoint
 
 
 ## Getting started
+
+You have to add a `config.js` script in root.
+The content should look like following:
+
+```javascript
+module.exports = {
+  spUrl: '',
+  spSubUrl: '',
+  spDir: '',
+  spUser: '',
+  spPw: '',
+};
+```
 
 ### Installation
 
@@ -42,7 +54,7 @@ npm start
 ### Production
 
 ```
-npm run build
+npm run publish
 ```
 
 ### Test
